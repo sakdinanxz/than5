@@ -1,0 +1,369 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROAD MIND | ฐานที่ 5</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f4f5f1;
+  --ink:#18201c;
+  --muted:#69716b;
+  --lime:#c9f36a;
+  --green:#243d32;
+  --white:#fff;
+  --line:#dce1d9;
+  --red:#e95f4c;
+  --blue:#5285db;
+  --yellow:#f1c84b;
+}
+*{box-sizing:border-box}
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'IBM Plex Sans Thai',sans-serif;
+  overflow:hidden;
+}
+.deck{height:100vh;display:flex;flex-direction:column}
+.top,.footer {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 4vw;
+  background:rgba(255,255,255,.8);
+}
+.top{height:54px;border-bottom:1px solid var(--line)}
+.brand{font:700 15px 'Space Grotesk';letter-spacing:.12em}
+.brand span{background:var(--lime);padding:4px 8px;border-radius:5px;margin-right:8px}
+.topright{font-size:11px;color:var(--muted)}
+.stage{position:relative;flex:1;overflow:hidden}
+.slide {
+  display:none;
+  height:100%;
+  padding:clamp(24px,5vw,72px) clamp(24px,8vw,120px);
+  overflow:auto;
+  animation:fade .3s ease;
+}
+.slide.active{display:flex;flex-direction:column;justify-content:center}
+@keyframes fade{from{opacity:.2;transform:translateY(8px)}to{opacity:1;transform:none}}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.15em;color:var(--muted);margin-bottom:20px}
+h1,h2,h3,p{margin:0}
+h1{font-size:clamp(48px,8vw,100px);line-height:1.05;letter-spacing:-.05em}
+h2{font-size:clamp(30px,4vw,54px);line-height:1.2;letter-spacing:-.035em;margin-bottom:20px}
+h3{font-size:19px;margin-bottom:7px}
+p{line-height:1.7}
+.muted{color:var(--muted)}
+.small{font-size:12px;color:var(--muted);line-height:1.6}
+.lime{color:var(--lime)}
+.hero{background:var(--green);color:#f7f8f3;position:relative}
+.hero .lead{font-size:clamp(17px,2vw,24px);margin-top:24px;line-height:1.6}
+.hero .small{color:#cbd6cd}
+.hero .kicker{color:var(--lime)}
+.hero-bottom{display:flex;justify-content:space-between;align-items:end;margin-top:55px;gap:20px}
+.pill{border:1px solid currentColor;border-radius:100px;padding:7px 13px;font-size:12px}
+.road-art{position:absolute;right:8%;bottom:0;width:30%;height:70%;pointer-events:none;opacity:.8}
+.road{position:absolute;bottom:-15%;left:30%;width:50%;height:120%;background:#1b2a23;transform:perspective(300px) rotateX(18deg);border-left:2px solid #9da89c;border-right:2px solid #9da89c}
+.dash{position:absolute;left:49%;height:100%;width:3px;background:repeating-linear-gradient(to bottom,var(--lime) 0 34px,transparent 34px 70px)}
+.roadcar{position:absolute;left:43%;top:55%;width:34px;height:58px;border-radius:9px;background:var(--lime);box-shadow:0 0 30px #c9f36a55}
+.grid2{display:grid;grid-template-columns:1.1fr .9fr;gap:35px;align-items:center}
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;min-height:130px}
+.card.dark{background:var(--green);color:white;border-color:var(--green)}
+.num{font:700 clamp(38px,5vw,64px)/1 'Space Grotesk';letter-spacing:-.06em;margin:12px 0}
+.card p{font-size:13px;color:var(--muted)}
+.card.dark p{color:#d4ddd6}
+.tag{display:inline-block;background:#eaf2da;padding:5px 10px;border-radius:6px;font-size:11px;color:#31432d}
+.list{display:grid;gap:10px;margin-top:15px}
+.listitem{display:flex;gap:14px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--line)}
+.idx{font:700 12px 'Space Grotesk';background:var(--lime);border-radius:7px;padding:6px 8px;min-width:30px;text-align:center}
+.listitem p{font-size:13px;color:var(--muted)}
+.quote{font-size:clamp(25px,4vw,45px);line-height:1.4}
+.quote b{background:var(--lime);color:var(--ink);padding:0 5px}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:24px}
+.time{border-top:3px solid var(--green);padding-top:12px}
+.time strong{font:700 22px 'Space Grotesk';display:block;margin-bottom:7px}
+.time p{font-size:12px;color:var(--muted)}
+.demo{background:#101a16;color:#f4f7f0;border-radius:20px;padding:clamp(18px,3vw,32px);width:min(100%,850px);margin:auto;box-shadow:0 20px 60px #10201820}
+.demohead{display:flex;justify-content:space-between;font-size:11px;letter-spacing:.1em;color:#b8c5b8}
+.question{font-size:clamp(19px,3vw,30px);line-height:1.5;font-weight:600;text-align:center;margin:25px auto;max-width:700px}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.answer{border:0;border-radius:12px;padding:16px;min-height:65px;text-align:left;font:600 14px 'IBM Plex Sans Thai';color:white;cursor:pointer;transition:.15s}
+.answer:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.answer:disabled{cursor:default;opacity:.75}
+.answer:nth-child(1){background:#db5145}
+.answer:nth-child(2){background:#4879d2}
+.answer:nth-child(3){background:#d9a927;color:#18201c}
+.answer:nth-child(4){background:#31966b}
+.feedback{min-height:55px;text-align:center;padding-top:15px;font-size:13px;color:var(--lime);line-height:1.6}
+.demobottom{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+.btn{border:0;border-radius:100px;background:var(--lime);color:#172018;padding:11px 18px;font:700 13px 'IBM Plex Sans Thai';cursor:pointer}
+.btn:disabled{opacity:.3;cursor:default}
+.progress{height:4px;background:#34443b;border-radius:8px;margin-top:15px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--lime);width:0;transition:width .3s}
+.footer{height:55px;border-top:1px solid var(--line)}
+.nav{display:flex;gap:8px;align-items:center}
+.nav button{border:1px solid var(--line);background:#fff;border-radius:100px;padding:8px 14px;font:600 12px 'IBM Plex Sans Thai';cursor:pointer}
+.nav button:disabled{opacity:.3;cursor:default}
+.dots{display:flex;gap:5px}
+.dots i{width:5px;height:5px;border-radius:9px;background:#cbd1c9}
+.dots i.on{width:18px;background:var(--green)}
+@media(max-width:700px){
+ .grid2{grid-template-columns:1fr;gap:20px}
+ .road-art{opacity:.15;width:55%;right:-10%}
+ .cards{grid-template-columns:1fr 1fr}
+ .timeline{grid-template-columns:repeat(2,1fr)}
+ .slide{padding:25px 22px}
+ .answers{grid-template-columns:1fr}
+ .top,.footer{padding:0 15px}
+ .topright{font-size:9px}
+ .hero-bottom{align-items:flex-start;flex-direction:column}
+}
+</style>
+</head>
+<body>
+<div class="deck">
+<header class="top">
+  <div class="brand"><span>05</span> ROAD MIND</div>
+  <div class="topright">BASE 05 · ROAD SAFETY</div>
+</header>
+<main class="stage">
+
+<!-- 01 COVER -->
+<section class="slide hero active">
+ <div class="kicker">BASE 05 · KNOWLEDGE + GAME</div>
+ <h1>รู้ทันถนน<span class="lime">.</span><br>ก่อนสาย</h1>
+ <p class="lead">ถ้าความเข้าใจผิดเพียงข้อเดียว<br>เปลี่ยนการเดินทางธรรมดาให้กลายเป็นอุบัติเหตุได้ล่ะ?</p>
+ <div class="hero-bottom">
+  <span class="pill lime">ROAD MIND — PLAY TO LEARN</span>
+  <span class="small">แนวคิดกิจกรรมฐานที่ 5 · 30 นาที</span>
+ </div>
+ <div class="road-art"><div class="road"><div class="dash"></div><div class="roadcar"></div></div></div>
+</section>
+
+<!-- 02 STATS -->
+<section class="slide">
+ <div class="kicker">01 / WHY THIS MATTERS</div>
+ <div class="grid2">
+  <div>
+   <h2>อุบัติเหตุไม่ใช่<br>เรื่องไกลตัว</h2>
+   <p class="muted">สถิติผู้เสียชีวิตจากอุบัติเหตุทางถนนสะท้อนว่า ความเสี่ยงเกิดขึ้นทุกวัน และรถจักรยานยนต์เป็นพาหนะสำคัญในสถิติการเสียชีวิต</p>
+   <div style="margin-top:24px"><span class="tag">ข้อมูลปี 2567 · กรมควบคุมโรค</span></div>
+  </div>
+  <div class="cards">
+   <div class="card dark"><div class="small" style="color:#cbd6cd">เสียชีวิตทั้งปี</div><div class="num">17,477</div><p>ราย ในปี 2567 จากข้อมูลบูรณาการ 3 ฐาน</p></div>
+   <div class="card"><div class="small">เฉลี่ยต่อวัน</div><div class="num">48</div><p>รายต่อวัน คำนวณจากยอดทั้งปี</p></div>
+   <div class="card"><div class="small">รถจักรยานยนต์</div><div class="num">14,144</div><p>ราย หรือประมาณ 81% ของผู้เสียชีวิต</p></div>
+   <div class="card"><div class="small">สัดส่วนโดยประมาณ</div><div class="num">8 ใน 10</div><p>ผู้เสียชีวิตเกี่ยวข้องกับรถจักรยานยนต์</p></div>
+  </div>
+ </div>
+ <p class="small" style="margin-top:15px">หมายเหตุ: เป็นข้อมูลเต็มปี 2567 ไม่ใช่สถิติปี 2569</p>
+</section>
+
+<!-- 03 MISCONCEPTIONS -->
+<section class="slide">
+ <div class="kicker">02 / THE MISCONCEPTIONS</div>
+ <h2>เรื่องที่คิดว่า “ไม่เป็นไร”<br>อาจไม่ใช่อย่างที่คิด</h2>
+ <div class="grid2">
+  <div class="list">
+   <div class="listitem"><span class="idx">01</span><div><h3>ใส่หมวกแค่ใกล้บ้านก็พอ</h3><p>อุบัติเหตุเกิดได้แม้ในระยะทางสั้น และหมวกต้องรัดสายคางให้กระชับ</p></div></div>
+   <div class="listitem"><span class="idx">02</span><div><h3>ถนนโล่ง ขับเร็วหน่อยไม่เป็นไร</h3><p>ความเร็วสูงเพิ่มระยะหยุดรถและความรุนแรงเมื่อเกิดการชน</p></div></div>
+   <div class="listitem"><span class="idx">03</span><div><h3>ไฟเหลืองคือเร่งให้ทัน</h3><p>ไฟเหลืองเป็นสัญญาณเตือนให้เตรียมหยุด ไม่ใช่สัญญาณให้เร่ง</p></div></div>
+  </div>
+  <div class="card dark" style="min-height:0">
+   <div class="kicker" style="color:var(--lime)">KEY IDEA</div>
+   <div class="quote">เราไม่ได้ถามว่าใคร <b>จำกฎได้</b> แต่ชวนคิดว่า <b>เข้าใจถูกหรือยัง</b></div>
+   <p style="margin-top:20px;color:#cbd6cd;font-size:13px">ใช้คำถามสั้น สถานการณ์ใกล้ตัว และเฉลยพร้อมเหตุผล เพื่อเปลี่ยนความรู้ให้เป็นการตัดสินใจ</p>
+  </div>
+ </div>
+</section>
+
+<!-- 04 CONCEPT -->
+<section class="slide">
+ <div class="kicker">03 / THE EXPERIENCE</div>
+ <h2>เปลี่ยนความรู้ให้เป็น<br><span style="background:var(--lime);padding:0 7px">ประสบการณ์การเล่น</span></h2>
+ <div class="grid2">
+  <div>
+   <p class="muted">ผู้เข้าร่วมสแกน QR Code เข้าสู่เกม ตอบคำถามแบบเลือกคำตอบ แข่งขันสะสมคะแนน และรับคำอธิบายหลังตอบแต่ละข้อ เพื่อให้เข้าใจเหตุผล ไม่ใช่แค่ทายถูก</p>
+   <div class="list">
+    <div class="listitem"><span class="idx">A</span><div><b>PLAY</b><p>ตอบคำถามแบบเกมโชว์ มีเวลาและคะแนน</p></div></div>
+    <div class="listitem"><span class="idx">B</span><div><b>LEARN</b><p>เฉลยพร้อมความรู้ด้านความปลอดภัยและกฎหมาย</p></div></div>
+    <div class="listitem"><span class="idx">C</span><div><b>REMEMBER</b><p>สรุปข้อคิดที่นำไปใช้บนถนนได้จริง</p></div></div>
+   </div>
+  </div>
+  <div class="card" style="min-height:0">
+   <div class="kicker">BOOTH FLOW</div>
+   <div class="num" style="font-size:48px">30<span style="font:500 15px 'IBM Plex Sans Thai'"> นาที</span></div>
+   <div class="timeline" style="grid-template-columns:1fr 1fr">
+    <div class="time"><strong>03'</strong><p>Hook / ชวนคิด</p></div>
+    <div class="time"><strong>05'</strong><p>เกริ่นความรู้</p></div>
+    <div class="time"><strong>17'</strong><p>เล่นเกม + เฉลย</p></div>
+    <div class="time"><strong>05'</strong><p>สรุป / ถามตอบ</p></div>
+   </div>
+   <p class="small" style="margin-top:20px">เวลาเป็นแผนตัวอย่าง ปรับตามจำนวนผู้เล่นและความยาวของคำถามได้</p>
+  </div>
+ </div>
+</section>
+
+<!-- 05 PLAYABLE QUIZ -->
+<section class="slide">
+ <div class="kicker">04 / LIVE DEMO</div>
+ <h2 style="text-align:center;margin-bottom:8px">ลองเล่นตัวอย่าง</h2>
+ <p class="muted" style="text-align:center;margin-bottom:22px">เลือกคำตอบเพื่อดูคะแนนและเฉลยทันที · ตัวอย่าง 5 ข้อ</p>
+ <div class="demo">
+  <div class="demohead"><span>ROAD MIND / QUICK QUIZ</span><span id="qcount">QUESTION 1 / 5</span></div>
+  <div class="progress"><i id="prog"></i></div>
+  <div class="question" id="question"></div>
+  <div class="answers" id="answers"></div>
+  <div class="feedback" id="feedback" aria-live="polite">เลือกคำตอบที่คิดว่าถูกต้อง</div>
+  <div class="demobottom">
+   <span id="score" style="font-size:12px;color:#b8c5b8">คะแนน 0</span>
+   <button class="btn" id="next" disabled>ข้อต่อไป →</button>
+  </div>
+ </div>
+ <p class="small" style="text-align:center;margin-top:16px">ตัวอย่างการเล่นบนเครื่องเดียว · เวอร์ชันใช้งานจริงสามารถต่อยอดเป็นระบบหลายคนและแสดงอันดับได้</p>
+</section>
+
+<!-- 06 OUTCOME -->
+<section class="slide">
+ <div class="kicker">05 / LEARNING OUTCOME</div>
+ <div class="grid2">
+  <div>
+   <h2>เล่นจบแล้ว<br>ต้องได้อะไรกลับไป?</h2>
+   <p class="muted">ผู้เข้าร่วมควรแยกแยะความเชื่อผิดจากข้อเท็จจริง เข้าใจหลักความปลอดภัยพื้นฐาน และรู้จักตรวจสอบกฎหมายจากแหล่งข้อมูลที่เชื่อถือได้</p>
+  </div>
+  <div class="list">
+   <div class="listitem"><span class="idx">01</span><div><h3>รู้เท่าทัน</h3><p>มองเห็นความเสี่ยงที่ซ่อนอยู่ในพฤติกรรมประจำวัน</p></div></div>
+   <div class="listitem"><span class="idx">02</span><div><h3>ตัดสินใจได้</h3><p>เลือกพฤติกรรมที่ปลอดภัยในสถานการณ์จริง</p></div></div>
+   <div class="listitem"><span class="idx">03</span><div><h3>นำไปใช้</h3><p>กลับไปใช้รถใช้ถนนโดยคำนึงถึงตนเองและผู้อื่น</p></div></div>
+  </div>
+ </div>
+</section>
+
+<!-- 07 SOURCES -->
+<section class="slide">
+ <div class="kicker">06 / SOURCES & NEXT STEP</div>
+ <h2>ข้อมูลตั้งต้น<br>และการพัฒนาต่อ</h2>
+ <div class="grid2">
+  <div class="list">
+   <div class="listitem"><span class="idx">01</span><div><b>กรมควบคุมโรค กระทรวงสาธารณสุข</b><p>ข้อมูลปี 2567: ผู้เสียชีวิต 17,477 ราย และเกี่ยวข้องกับรถจักรยานยนต์ 14,144 ราย</p><a href="https://pr.moph.go.th//online/index/news/320576" target="_blank">อ่านข้อมูล ↗</a></div></div>
+   <div class="listitem"><span class="idx">02</span><div><b>ระบบ RTIDC กรมควบคุมโรค</b><p>ระบบข้อมูลบูรณาการการบาดเจ็บและเสียชีวิตจากอุบัติเหตุทางถนน</p><a href="https://rti.moph.go.th/rtidc/public/index.php" target="_blank">ดู Dashboard ↗</a></div></div>
+  </div>
+  <div class="card dark" style="min-height:0">
+   <div class="kicker" style="color:var(--lime)">NEXT DEVELOPMENT</div>
+   <h3 style="font-size:23px">จากต้นแบบสู่บูทจริง</h3>
+   <p style="margin-top:10px">• เพิ่ม QR Code สำหรับเข้าร่วม<br>• รองรับผู้เล่นหลายคนและจัดอันดับ<br>• เพิ่มคลังคำถามตามระดับความยาก<br>• ตรวจทานเฉลยกับกฎหมายฉบับปัจจุบัน</p>
+   <p class="small" style="margin-top:18px;color:#cbd6cd">สถิติในสไลด์ใช้ปี 2567 เป็นข้อมูลเต็มปีที่อ้างอิงได้ ไม่ใช่ค่าประมาณปี 2569</p>
+  </div>
+ </div>
+</section>
+</main>
+<footer class="footer">
+ <div class="small">ฐานที่ 5 · ROAD MIND</div>
+ <div class="dots" id="dots"></div>
+ <div class="nav">
+  <button id="prev">← ก่อนหน้า</button>
+  <span id="counter" style="font:600 11px 'Space Grotesk';min-width:38px;text-align:center">01 / 07</span>
+  <button id="nextslide">ถัดไป →</button>
+ </div>
+</footer>
+</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let current=0;
+const dots=document.getElementById('dots');
+slides.forEach((_,i)=>{
+ const d=document.createElement('i');
+ if(!i)d.className='on';
+ dots.appendChild(d);
+});
+function show(n){
+ current=Math.max(0,Math.min(slides.length-1,n));
+ slides.forEach((s,i)=>s.classList.toggle('active',i===current));
+ [...dots.children].forEach((d,i)=>d.classList.toggle('on',i===current));
+ document.getElementById('counter').textContent=
+ String(current+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+ document.getElementById('prev').disabled=current===0;
+ document.getElementById('nextslide').disabled=current===slides.length-1;
+}
+document.getElementById('prev').onclick=()=>show(current-1);
+document.getElementById('nextslide').onclick=()=>show(current+1);
+document.addEventListener('keydown',e=>{
+ if(e.key==='ArrowRight' || e.key===' '){
+  if(current!==4)show(current+1);
+  e.preventDefault();
+ }
+ if(e.key==='ArrowLeft'){show(current-1);e.preventDefault();}
+});
+
+const quiz=[
+ {q:'ขณะขี่รถจักรยานยนต์ในระยะใกล้ ๆ จำเป็นต้องสวมหมวกนิรภัยหรือไม่?',
+  a:['ไม่จำเป็น ถ้าขับช้า','จำเป็น ทั้งผู้ขับขี่และคนซ้อน','จำเป็นเฉพาะถนนใหญ่','ใส่เฉพาะตอนกลางคืน'],
+  c:1,e:'กฎหมายกำหนดให้ผู้ขับขี่และคนโดยสารรถจักรยานยนต์สวมหมวกนิรภัย ไม่ได้ยกเว้นเพราะระยะทางใกล้'},
+ {q:'เมื่อเห็นสัญญาณไฟเหลือง ผู้ขับขี่ควรทำอย่างไร?',
+  a:['เร่งความเร็วให้พ้นแยก','บีบแตรเตือนแล้วไปต่อ','เตรียมหยุด หากหยุดได้อย่างปลอดภัย','ไฟเหลืองแปลว่าไปได้เสมอ'],
+  c:2,e:'ไฟเหลืองเป็นสัญญาณให้เตรียมหยุด เว้นแต่รถอยู่ใกล้จนไม่สามารถหยุดได้อย่างปลอดภัย'},
+ {q:'ขับรถตามคันหน้าในวันที่ฝนตก ควรทำอย่างไร?',
+  a:['เพิ่มระยะห่าง','ขับชิดเพื่อกันรถแทรก','ใช้ไฟสูงตลอดเวลา','เบรกกะทันหันเพื่อทดสอบถนน'],
+  c:0,e:'ถนนเปียกลื่นและระยะหยุดรถอาจเพิ่มขึ้น จึงควรลดความเร็วและเพิ่มระยะห่าง'},
+ {q:'ถ้าถนนโล่งและไม่มีรถคันอื่น เราขับเร็วเกินกำหนดได้ไหม?',
+  a:['ได้ ถ้าควบคุมรถเก่ง','ได้ เฉพาะกลางวัน','ไม่ได้ ต้องปฏิบัติตามป้ายและข้อกำหนด','ได้ถ้าเปิดไฟฉุกเฉิน'],
+  c:2,e:'การไม่มีรถไม่ได้ทำให้ข้อจำกัดความเร็วหายไป และความเร็วที่เหมาะสมต้องคำนึงถึงสภาพถนนด้วย'},
+ {q:'คำถามกวน ๆ: ถ้าจะให้ถึงบ้านเร็วขึ้น วิธีใดช่วยได้จริงที่สุด?',
+  a:['ขับเร็วขึ้นทุกช่วง','ไม่ต้องหยุดดูทาง','วางแผนเส้นทางและออกเดินทางเผื่อเวลา','ขับจี้ท้ายรถคันหน้า'],
+  c:2,e:'การวางแผนและเผื่อเวลา ช่วยลดแรงกดดันให้ต้องเร่งหรือขับเสี่ยง'}
+];
+let qi=0,score=0,answered=false;
+const qEl=document.getElementById('question');
+const aEl=document.getElementById('answers');
+const fEl=document.getElementById('feedback');
+const sEl=document.getElementById('score');
+const nEl=document.getElementById('next');
+const pEl=document.getElementById('prog');
+function renderQ(){
+ answered=false;
+ const q=quiz[qi];
+ document.getElementById('qcount').textContent=`QUESTION ${qi+1} / ${quiz.length}`;
+ qEl.textContent=q.q;
+ fEl.textContent='เลือกคำตอบที่คิดว่าถูกต้อง';
+ aEl.innerHTML='';
+ nEl.disabled=true;
+ nEl.textContent=qi===quiz.length-1?'เล่นอีกครั้ง ↻':'ข้อต่อไป →';
+ pEl.style.width=(qi/quiz.length*100)+'%';
+ q.a.forEach((a,i)=>{
+  const b=document.createElement('button');
+  b.className='answer';
+  b.innerHTML=`<span style="font-size:18px">${['▲','◆','●','■'][i]}</span> ${a}`;
+  b.onclick=()=>answer(i);
+  aEl.appendChild(b);
+ });
+}
+function answer(i){
+ if(answered)return;
+ answered=true;
+ const q=quiz[qi];
+ if(i===q.c){
+  score+=100;
+  fEl.textContent='✓ ถูกต้อง +100 คะแนน — '+q.e;
+ }else{
+  fEl.textContent='คำตอบที่ถูก: '+q.a[q.c]+' — '+q.e;
+ }
+ [...aEl.children].forEach((b,j)=>{
+  b.disabled=true;
+  if(j===q.c)b.style.outline='3px solid #c9f36a';
+ });
+ sEl.textContent='คะแนน '+score;
+ nEl.disabled=false;
+ pEl.style.width=((qi+1)/quiz.length*100)+'%';
+}
+nEl.onclick=()=>{
+ if(qi<quiz.length-1){qi++;renderQ();}
+ else{qi=0;score=0;sEl.textContent='คะแนน 0';renderQ();}
+};
+renderQ();
+show(0);
+</script>
+</body>
+</html>
